@@ -1,8 +1,12 @@
+using ExceptionSolutionProject.Controllers;
+using ExceptionSolutionProject.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<OpenAIService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +26,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=AiHelp}/{action=Index}/{id?}");
 
 app.Run();

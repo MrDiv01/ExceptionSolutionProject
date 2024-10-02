@@ -1,29 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExceptionSolutionProject.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExceptionSolutionProject.Controllers
 {
     public class AIHelpController : Controller
     {
+
+        private readonly OpenAIService _openAIService;
+
+        public AIHelpController(OpenAIService openAIService)
+        {
+            _openAIService = openAIService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult SendMessage(string question, IFormFile uploadedFile)
+        public async Task<JsonResult> SendMessage(string message)
         {
-            // Gelen soru ve dosya işlemleri burada yapılacak
-            var answer = "AI'den gelen cevap burada olacak"; // Örnek AI cevabı
-            return Json(new { answer });
-        }
-
-
-        private async Task<string> GetAIResponse(string question, IFormFile uploadedFile)
-        {
-            // AI cevabını oluşturacak bir metot. Burada AI API çağrısı yapabilirsin.
-            // Yüklenen dosya (resim) varsa onu da AI'ye gönderebilirsin.
-
-            // Şu an için basit bir mock cevap:
-            return "AI'den gelen cevap: " + question;
+            // OpenAI API'ye istek gönderip yanıtı alıyoruz
+            string response = await _openAIService.SendMessageAsync(message)/*"Bu mesaj AI den gelib"*/;
+            
+            // İstemciye OpenAI yanıtını dönüyoruz
+            return Json(new { success = true, openAIResponse = response, message = "Message received: " + message });
         }
 
     }
