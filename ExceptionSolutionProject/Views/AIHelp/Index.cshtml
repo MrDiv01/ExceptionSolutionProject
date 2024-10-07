@@ -1,6 +1,9 @@
-﻿@{
+﻿@using ExceptionSolutionProject.DTOs
+@model List<AIChatDto>
+@{
     Layout = "_LayoutChat";
 }
+
 <!--  BEGIN CONTENT AREA  -->
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
@@ -18,11 +21,23 @@
                                 <div class="person" data-chat="person6">
                                     <div class="user-info">
                                         <div class="f-head">
-                                            <img src="~/main/assets/img/90x90.jpg" alt="avatar">
+                                            <img src="~/main/assets/img/AI.jpeg" alt="avatar">
                                         </div>
                                         <div class="f-body">
                                             <div class="meta-info">
                                                 <span class="user-name" data-name="Nia Hillyer">Ai Helper</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="person" data-chat="person7">
+                                    <div class="user-info">
+                                        <div class="f-head">
+                                            <img src="~/main/assets/img/AiRestore.jpg" alt="avatar">
+                                        </div>
+                                        <div class="f-body">
+                                            <div class="meta-info">
+                                                <span class="user-name" data-name="Nia Hillyer">Old Chats</span>
                                             </div>
                                         </div>
                                     </div>
@@ -32,7 +47,7 @@
                         <div class="chat-box">
 
                             <div class="chat-not-selected">
-                                <p> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Click User To Chat</p>
+                                <p> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Click AI</p>
                             </div>
 
                             <div class="overlay-phone-call">
@@ -100,11 +115,33 @@
                                                 Hi, How Can I Help You?
                                             </div>
                                         </div>
+                                        <div class="chat" data-chat="person7">
+                                            @foreach (AIChatDto aIChat in Model)
+                                            {
+                                                <div class="bubble me">
+                                                    @aIChat.UserMessage
+                                                    <br />
+                                                    <br />
+                                                    <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
+
+                                                </div>
+                                                <div class="bubble you">
+                                                    @aIChat.AIMessage
+                                                    <br />
+                                                    <br />
+
+                                                    <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
+
+
+                                                </div>
+
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="chat-footer">
                                     <div class="chat-input">
-                                        <form class="chat-form" action="javascript:void(0);">
+                                        <form class="chat-form" @* action="javascript:void(0); "*@>
                                             <svg id="aiform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                                             <input id="inpai" type="text" class="mail-write-box form-control" placeholder="Message" />
                                         </form>
@@ -125,10 +162,24 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+            $('[data-chat="person7"]').click(function() {
+                $('.chat-form').css('visibility', 'hidden');  // Formun ID'si aiform olarak varsayıldı, bunu kendi form ID'nizle değiştirin
+            });
+            $('[data-chat="person6"]').click(function() {
+                $('.chat-form').css('visibility', 'visible');  // Formun ID'si aiform olarak varsayıldı, bunu kendi form ID'nizle değiştirin
+            });
             $("#aiform").click(function() {
                 let message = $("#inpai").val();
+
+                // Input boşsa uyarı ver ve işlemi durdur
+                if (message.trim() === "") {
+                    alert("Mesaj boş olamaz!");
+                    return; // Eğer input boşsa AJAX işlemini durdur
+                }
+
                 var mymessage = $("<div>", { class: "bubble me", text: message });
                 $(".chat").append(mymessage);
+
                 $.ajax({
                     url: "/AIHelp/SendMessage",
                     method: "post",
@@ -139,20 +190,18 @@
                     beforeSend: function() {
                         var messageContent = "Wait Please ...";
                         var wait = $("<div>", { class: "bubble you", text: messageContent });
-                        // $(".aimessage").append("Test");
                         $(".chat").append(wait);
                     },
                     success: function(response) {
                         var messageContent = response.openAIResponse;
                         var aimessage = $("<div>", { class: "bubble you", text: messageContent });
-                        // $(".aimessage").append("Test");
                         $(".bubble.you:contains('Wait Please ...')").remove();
                         $(".chat").append(aimessage);
-                        $("#inpai").val("");
+                        $("#inpai").val(""); // Mesaj gönderildikten sonra inputu temizle
                     }
                 });
-
             });
         });
     </script>
+
 }
