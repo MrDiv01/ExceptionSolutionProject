@@ -5,54 +5,66 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using ExpHub.DTOs;
+using LoginRegisterAPI.DTOs;
+using System.Data.SqlClient;
 
 namespace ExpHub.Services
 {
-    public  class LoginService
+    public class LoginService
     {
         private readonly HttpClient _httpClient;
+        private string _connectionString = "Server=ACER;Database=LoginRegisterAppDB;Trusted_Connection=True;TrustServerCertificate=True";
 
         public LoginService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        // Login kontrolü
         public async Task<bool> LoginCheck(LoginDto loginDto)
         {
             _httpClient.BaseAddress = new Uri("http://localhost:5192/api/auth/");
 
-            // API'ye login isteği gönder
             var response = await _httpClient.PostAsJsonAsync("login", loginDto);
 
-            // Eğer durum kodu 200 ise true döndür
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
 
-                // Token'ı işleyebilirsin (controller'da)
                 var token = tokenResponse?.token?.result;
 
-                // Başarılı
                 return true;
             }
             else
             {
-                // Başarısız
                 return false;
             }
         }
-    }
+        public async Task<UserDto> GetDataByEmail(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                UserDto userDto = new UserDto();
+                string query = "SELECT * FROM AspNetUsers WHERE Email = @Email";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
 
-
-    public class TokenResponse
-    {
-        public TokenResult token { get; set; }
-    }
-
-    public class TokenResult
-    {
-        public string result { get; set; }
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Kullanıcı bilgilerini burada işleyin
+                            Console.WriteLine($"ID: {reader["Id"]}, Name: {reader["FullName"]}, Email: {reader["Email"]}");
+                            userDto.UserId = reader["Id"].ToString();
+                            userDto.UserName = reader["FullName"].ToString();
+                            userDto.UserMail = reader["Email"].ToString();
+                        }
+                        return userDto;
+                    }
+                }
+            }
+        }
     }
 }
