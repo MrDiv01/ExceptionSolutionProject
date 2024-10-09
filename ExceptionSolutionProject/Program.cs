@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +17,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
            .UseSqlServer(builder.Configuration.GetConnectionString("default")));
+builder.Services.AddDbContext<ExpHubApplicationDbContext>(options => options
+           .UseSqlServer(builder.Configuration.GetConnectionString("ExpHubProject")));
 builder.Services.AddScoped<OpenAIService>();
 builder.Services.AddHttpClient<SpotifyService>();
+
+// SignalR'ı ekleyin
+builder.Services.AddSignalR();
 
 // JWT ayarları
 builder.Services.AddAuthentication(options =>
@@ -64,6 +73,10 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 app.UseAuthorization();
 
+// SignalR hub'ını tanımlayın
+app.MapHub<ChatHub>("/chatHub");
+
+// Varsayılan yönlendirmeyi ayarlayın
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=LoginRegister}/{action=Login}/{id?}");

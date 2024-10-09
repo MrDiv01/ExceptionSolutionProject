@@ -56,7 +56,7 @@ namespace ExpHub.Services
                         while (reader.Read())
                         {
                             // Kullanıcı bilgilerini burada işleyin
-                            Console.WriteLine($"ID: {reader["Id"]}, Name: {reader["FullName"]}, Email: {reader["Email"]}");
+                            Console.WriteLine($"Name: {reader["FullName"]}, Email: {reader["Email"]}");
                             userDto.UserId = reader["Id"].ToString();
                             userDto.UserName = reader["FullName"].ToString();
                             userDto.UserMail = reader["Email"].ToString();

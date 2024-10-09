@@ -7,5 +7,6 @@ namespace ExceptionSolutionProject.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<AIChat> AIChats { get; set; }
+        public DbSet<ChatMessage> ChatMessage { get; set; }
     }
 }

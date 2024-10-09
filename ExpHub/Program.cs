@@ -10,10 +10,10 @@ namespace ExpHub
     {
         static async Task Main(string[] args)
         {
+            
             using (var httpClient = new HttpClient())
             {
                 var loginService = new LoginService(httpClient);
-
                 bool isLoginSuccessful = false;
                 string mail = string.Empty;
                 string password = string.Empty;
@@ -94,8 +94,8 @@ namespace ExpHub
 
 
 
-
-
+                    Console.WriteLine("Lutfen Folderin Descriptionun girin");
+                   string description =  Console.ReadLine();
 
                     if (Directory.Exists(userDirectoryPath))
                     {
@@ -138,7 +138,8 @@ namespace ExpHub
                                 {
                                     FolderName = customSubFolderName,
                                     UserId = dataCheck.Id ,// Kullanıcının ID'sini kullan
-                                    DateTime = DateTime.Now
+                                    DateTime = DateTime.Now,
+                                    FolderDescription = description
                                 };
                                 await context.Folders.AddAsync(folder);
                                 await context.SaveChangesAsync(); // Değişiklikleri kaydet
@@ -151,7 +152,8 @@ namespace ExpHub
                                 {
                                     FolderName = customSubFolderName,
                                     UserId = data.Id ,// Kullanıcının ID'sini kullan
-                                     DateTime= DateTime.Now
+                                     DateTime= DateTime.Now,
+                                     FolderDescription = description
                                 };
                                 await context.Folders.AddAsync(folder);
                                 await context.SaveChangesAsync();
