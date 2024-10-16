@@ -79,6 +79,6 @@ app.MapHub<ChatHub>("/chatHub");
 // Varsayılan yönlendirmeyi ayarlayın
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=LoginRegister}/{action=Login}/{id?}");
+    pattern: "{controller=Notes}/{action=index}/{id?}");
 
 app.Run();

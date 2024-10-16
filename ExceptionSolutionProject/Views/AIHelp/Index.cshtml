@@ -116,26 +116,37 @@
                                             </div>
                                         </div>
                                         <div class="chat" data-chat="person7">
-                                            @foreach (AIChatDto aIChat in Model)
+                                            @if (Model == null)
                                             {
                                                 <div class="bubble me">
-                                                    @aIChat.UserMessage
-                                                    <br />
-                                                    <br />
-                                                    <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
-
+                                                    @ViewBag.NotUsed
                                                 </div>
-                                                <div class="bubble you">
-                                                    @aIChat.AIMessage
-                                                    <br />
-                                                    <br />
-
-                                                    <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
-
-
-                                                </div>
-
                                             }
+                                            else
+                                            {
+
+                                                @foreach (AIChatDto aIChat in Model)
+                                                {
+                                                    <div class="bubble me">
+                                                        @aIChat.UserMessage
+                                                        <br />
+                                                        <br />
+                                                        <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
+
+                                                    </div>
+                                                    <div class="bubble you">
+                                                        @aIChat.AIMessage
+                                                        <br />
+                                                        <br />
+
+                                                        <span>@aIChat.CreatedTime.ToString("dddd, dd MMMM yyyy HH:mm")</span>
+
+
+                                                    </div>
+
+                                                }
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
