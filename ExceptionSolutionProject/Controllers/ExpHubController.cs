@@ -23,7 +23,8 @@ namespace ExceptionSolutionProject.Controllers
                 var userEmail = AiHelper.GetEmailFromJwt(token);
 
             User data = await _expContext.Users.Where(x => x.Email == userEmail).Include(x => x.Folders).FirstOrDefaultAsync();
-                
+                if(data == null)
+                return NotFound();
                 //var data = await _expContext.Folders.ToListAsync();
             return View(data);
         }

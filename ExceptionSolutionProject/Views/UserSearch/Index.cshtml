@@ -18,7 +18,7 @@
                         <table id="multi-column-ordering" class="table table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>İsim</th>
+                                    <th>Specialty</th>
                                     <th>Kullanıcı Adı</th>
                                     <th>Telefonlar</th>
                                 </tr>
@@ -29,9 +29,6 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex">
-                                                <div class="usr-img-frame mr-2 rounded-circle">
-                                                    <img alt="avatar" class="img-fluid rounded-circle" src="assets/img/90x90.jpg">
-                                                </div>
                                                     <a asp-action="SendMessage" asp-route-UserId="@item.UserId" class="align-self-center mb-0 admin-name">@item.Name</a>
                                             </div>
                                         </td>
@@ -98,7 +95,7 @@
 
     <script src="~/main/assets/js/custom.js"></script>
     <script src="~/main/plugins/table/datatable/datatables.js"></script>
-    <script>
+@*     <script>
         $('#multi-column-ordering').DataTable({
             "oLanguage": {
                 "oPaginate": {
@@ -114,5 +111,5 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7
         });
-    </script>
+    </script> *@
 }

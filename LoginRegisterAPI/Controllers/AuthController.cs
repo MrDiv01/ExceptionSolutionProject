@@ -79,7 +79,9 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>
     {
         new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-        new Claim(JwtRegisteredClaimNames.Email, user.Email), 
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim("Speciality",user.FullName),
+        new Claim("Phone",user.PhoneNumber),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
 
@@ -96,7 +98,7 @@ public class AuthController : ControllerBase
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(60),
+            expires: DateTime.Now.AddHours(3),
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);

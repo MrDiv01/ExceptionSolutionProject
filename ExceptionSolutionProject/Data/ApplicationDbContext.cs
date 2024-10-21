@@ -1,4 +1,5 @@
-﻿using ExceptionSolutionProject.Models;
+﻿using ExceptionSolutionProject.Controllers;
+using ExceptionSolutionProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExceptionSolutionProject.Data
@@ -8,5 +9,6 @@ namespace ExceptionSolutionProject.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<AIChat> AIChats { get; set; }
         public DbSet<ChatMessage> ChatMessage { get; set; }
+        public DbSet<ScheduledMessage> ScheduledMessage { get; set; }
     }
 }

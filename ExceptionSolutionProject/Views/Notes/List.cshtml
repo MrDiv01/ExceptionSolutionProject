@@ -1,0 +1,68 @@
+﻿@using ExceptionSolutionProject.DTOs
+@model List<NotListDto>
+@{
+    ViewData["Title"] = "List";
+}
+
+<div id="content" class="main-content">
+    <div class="layout-px-spacing">
+
+        <div class="page-header">
+            <div class="page-title">
+                <h3>Notes</h3>
+                <a asp-action="Index" type="button" class="btn btn-primary">Create Note</a>
+            </div>
+        </div>
+
+        <div class="row" id="cancel-row">
+
+            <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                <div class="widget-content widget-content-area br-6">
+                    <div class="table-responsive mb-4 mt-4">
+                        <table id="zero-config" class="table table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Note</th>
+                                    <th>Upload date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>@item.Note</td>
+                                        <td>@item.Date</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Note</th>
+                                    <th>Upload date</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/main/assets/js/libs/jquery-3.1.1.min.js"></script>
+    <script src="~/main/bootstrap/js/popper.min.js"></script>
+    <script src="~/main/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/main/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/main/assets/js/app.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="~/main/assets/js/custom.js"></script>
+}

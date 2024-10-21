@@ -9,11 +9,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SignalR;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHangfire(config =>
+config.UseSqlServerStorage(builder.Configuration.GetConnectionString("default")));
+builder.Services.AddHangfireServer();
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
            .UseSqlServer(builder.Configuration.GetConnectionString("default")));
@@ -72,6 +76,7 @@ app.Use(async (context, next) =>
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseHangfireDashboard();
 
 // SignalR hub'ını tanımlayın
 app.MapHub<ChatHub>("/chatHub");
@@ -79,6 +84,6 @@ app.MapHub<ChatHub>("/chatHub");
 // Varsayılan yönlendirmeyi ayarlayın
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Notes}/{action=index}/{id?}");
+    pattern: "{controller=LoginRegister}/{action=Login}/{id?}");
 
 app.Run();

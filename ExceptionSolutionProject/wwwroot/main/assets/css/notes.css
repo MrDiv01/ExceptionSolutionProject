@@ -48,7 +48,7 @@ textarea {
         outline: none;
     }
 
-input[type="date"] {
+input[type="datetime-local"] {
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -58,12 +58,12 @@ input[type="date"] {
     transition: border-color 0.3s ease;
 }
 
-    input[type="date"]:focus {
+    input[type="datetime-local"]:focus {
         border-color: #007bff;
         outline: none;
     }
 
-button {
+button, .btn {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -71,10 +71,18 @@ button {
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px; /* Üstte boşluk */
     transition: background-color 0.3s ease;
+    width: 100%; /* Butonların genişliği tam olsun */
 }
 
-    button:hover {
+    button:hover, .btn:hover {
         background-color: #0056b3;
     }
+
+.dual-button {
+    display: flex;
+    flex-direction: column; /* Butonları alt alta yerleştir */
+    gap: 10px; /* Butonlar arasında boşluk */
+    margin-top: 20px; /* Formun altında boşluk */
+}
