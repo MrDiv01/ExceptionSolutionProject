@@ -1,15 +1,11 @@
-﻿using ExceptionSolutionProject.Controllers;
-using ExceptionSolutionProject.Data;
+﻿using ExceptionSolutionProject.Data;
 using ExceptionSolutionProject.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.SignalR;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using SignalRChat.Hubs;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +21,7 @@ builder.Services.AddDbContext<ExpHubApplicationDbContext>(options => options
            .UseSqlServer(builder.Configuration.GetConnectionString("ExpHubProject")));
 builder.Services.AddScoped<OpenAIService>();
 builder.Services.AddHttpClient<SpotifyService>();
-
+builder.Services.AddSignalR();
 // SignalR'ı ekleyin
 builder.Services.AddSignalR();
 
@@ -77,9 +73,7 @@ app.Use(async (context, next) =>
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHangfireDashboard();
-
 // SignalR hub'ını tanımlayın
-app.MapHub<ChatHub>("/chatHub");
 
 // Varsayılan yönlendirmeyi ayarlayın
 app.MapControllerRoute(

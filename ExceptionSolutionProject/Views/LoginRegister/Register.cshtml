@@ -22,12 +22,24 @@
                                 <input asp-for="UserName" class="form-control" placeholder="Username">
                                 <span asp-validation-for="UserName" class="text-danger"></span>
                             </div>
+                              <div class="field-wrapper input">
+                                <label asp-for="Name"></label>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <input asp-for="Name" class="form-control" placeholder="Name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="field-wrapper input">
+                                <label asp-for="Surname"></label>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <input asp-for="Surname" class="form-control" placeholder="Surname">
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
 
                             <div class="field-wrapper input">
-                                <label asp-for="FullName">Specialty</label>
+                                <label asp-for="Specialty">Specialty</label>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                <input asp-for="FullName" class="form-control" placeholder="Specialty">
-                                <span asp-validation-for="FullName" class="text-danger"></span>
+                                <input asp-for="Specialty" class="form-control" placeholder="Specialty">
+                                <span asp-validation-for="Specialty" class="text-danger"></span>
                             </div>
 
                             <div class="field-wrapper input">

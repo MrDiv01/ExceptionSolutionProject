@@ -1,11 +1,12 @@
-﻿// SignalR Hub metodu
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
-public class ChatHub : Hub
+namespace SignalRChat.Hubs
 {
-    public async Task SendMessage(string userId, string message)
+    public class ChatHub : Hub
     {
-        // Belirtilen kullanıcıya mesajı ilet
-        await Clients.User(userId).SendAsync("ReceiveMessage", message);
+        public async Task SendMessage(string user, string message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
     }
 }

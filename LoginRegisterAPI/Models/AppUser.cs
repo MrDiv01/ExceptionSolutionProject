@@ -2,6 +2,8 @@
 
 public class AppUser : IdentityUser
 {
-    public string? FullName { get; set; } // Kullanıcının tam adı
-    public string? PhoneNumber { get; set; } // Kullanıcının telefon numarası
+    public string Name {  get; set; }
+    public string Surname {  get; set; }
+    public string Specialty { get; set; }
+    public string PhoneNumber { get; set; }
 }

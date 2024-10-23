@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -31,16 +32,19 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApiConnection")));
 
+
 // Identity Configuration
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApiDbContext>()
     .AddDefaultTokenProviders();
 
 // Add custom services
-builder.Services.AddScoped<RoleSeedService>();
+builder.Services.AddScoped<RoleSeedService>(); // Rol tohumlama servisi
+// Eğer kullanıcı için özel bir servis ekleyecekseniz, burada ekleyebilirsiniz
+// builder.Services.AddScoped<UserService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 
 // Seed roles
